@@ -130,13 +130,12 @@ function downloadjpg(){
         tmpLink.click();     
      document.body.removeChild( tmpLink );
 }
-function downloadpdf(){ 
-    import { jsPDF } from "jspdf";
+function downloadpdf(){
   var canvas = document.getElementById('canvas');
   canvas.crossOrigin = "Anonymous";
-  var image = canvas.toDataURL(); 
+  var image = canvas.toDataURL('image/JPEG',1.0); 
   var pdf = new jsPDF();
-  pdf.addImage(image, 'png', 0, 0); 
+  pdf.addImage(image, 'JPEG', 0, 0); 
    var tmpLink = document.createElement( 'a' );     
     tmpLink.download = 'certificate.pdf';
      tmpLink.href = pdf;

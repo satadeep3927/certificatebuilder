@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/jspdf@1.5.3/dist/jspdf.min.js"></script>
+    <title>certificate buider</title>
+    <style>
+      @font-face {
+        font-family: alex;
+        src: url('AlexBrush-Regular.ttf');
+      }
+      #container{
+        text-align: center;
+        margin-top:2em;
+        margin-bottom: 2em;
+      }
+        #canvas{
+            position: relative;
+            width: 80%;
+            height: auto;
+            display: none;
+            margin-left:10vw;
+            margin-right: auto;
+        }
+        #forsp{
+          visibility: hidden;
+        }
+        button{
+          margin-right:1em;
+        }
+        #preview{
+          display: none;
+        }
+        #dpdf{
+          display:none;
+        }
+        #djpg{
+          display:none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <a class="navbar-brand" href="#">CERTIFICATE GENERATOR</a>
+    </nav>
+          <form id="formput">
+            <div class="form-group">
+              <div class="col-auto my-4">
+                <label class="sr-only" for="inlineFormInput">Name</label>
+                <input type="text" class="form-control mb-2" id="name" placeholder="your name" required>
+              </div>
+              <div class="col-auto my-4">
+                <label class="sr-only" for="inlineFormInput">photo</label>
+                <input type="file" class="form-control mb-2" id="profile" accept=".jpg,.png,.jpeg"onchange="previewFile()" required>
+              </div>
+            </div>
+          </form>        
+          <div id="container">
+            <button type="button" class="btn btn-primary col-3 mb-4" id="submit">Submit</button>
+            <button type="button" class="btn btn-primary mb-4" id="preview">view</button>
+          </div>
+          <canvas id="canvas"></canvas>
+          <img id="img" style="display: none;" src="C:\Users\Biswadeep\Downloads\CERTIFICATE5.jpg"/>
+          <img id="img1" style="display: none;" src = ""/>
+          <div id="container">
+          <button type="button" class="btn btn-outline-primary mb-2" id="dpdf" onclick="downloadpdf()">DOWNLOAD PDF</button>
+          <button type="button" class="btn btn-outline-primary mb-2" id="djpg" onclick="downloadjpg()">DOWNLOAD JPEG</button>
+          </div>
+</body>
+    <script>
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      today = dd + '/' + mm + '/' + yyyy
+        function previewFile() {
+  const preview = document.getElementById('img1');
+  const file = document.querySelector('input[type=file]').files[0];
+  const reader = new FileReader();
+  reader.addEventListener("load", function () {
+    // convert image file to base64 string
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+        var canvas = document.getElementById('canvas'),
+        ctx = canvas.getContext('2d');
+canvas.width = $('#img').width();
+canvas.crossOrigin = "Anonymous";
+canvas.height = $('#img').height();
+ctx.drawImage($('#img').get(0), 0, 0);
+var x = $('#img').width();
+var y = $('#img').height();
+var ratio = x/y
+$(document).on('click','#submit',function(){
+    $('#preview').css('display','inline-block');
+    //redraw image
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage($('#img').get(0), 0, 0);
+    ctx.drawImage($('#img1').get(0), 50,120,150,110*ratio);
+    //refill text
+    ctx.fillStyle = "black";
+    ctx.textAlign = 'center';
+    ctx.font = "70pt alex";
+    ctx.fillText($('#name').val(),660,460);
+    ctx.font = '30pt verdana'
+    ctx.fillText(today,260,815);  
+});
+$(document).on('click','#preview',function(){
+    $('#canvas').css('display','inline-block');
+    $('#dpdf').css('display','inline-block');
+    $('#djpg').css('display','inline-block');
+});
+function downloadjpg(){ 
+  var canvas = document.getElementById('canvas');
+  canvas.crossOrigin = "Anonymous";
+  var image = canvas.toDataURL();  
+   var tmpLink = document.createElement( 'a' );     
+    tmpLink.download = 'certificate.jpg';
+     tmpLink.href = image;
+       document.body.appendChild( tmpLink );     
+        tmpLink.click();     
+     document.body.removeChild( tmpLink );
+}
+function downloadpdf(){ 
+  var canvas = document.getElementById('canvas');
+  canvas.crossOrigin = "Anonymous";
+  var image = canvas.toDataURL('image/jpeg',1.0); 
+  var pdf = new jsPDF();
+  pdf.addImage(imgData, 'JPEG', 0, 0); 
+   var tmpLink = document.createElement( 'a' );     
+    tmpLink.download = 'certificate.pdf';
+     tmpLink.href = pdf;
+       document.body.appendChild( tmpLink );     
+        tmpLink.click();     
+     document.body.removeChild( tmpLink );  }
+    </script>
+</html>

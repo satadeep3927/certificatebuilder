@@ -137,10 +137,10 @@ function downloadjpg(){
 function downloadpdf(){
   var canvas = document.getElementById('canvas');
   canvas.crossOrigin = "Anonymous";
-  var img = canvas.toDataURL('image/JPEG',1.0); 
+  var img = canvas.toDataURL('image/JPEG',0.7); 
   var pdf = new jsPDF('l','mm');
   pdf.text(30,30,'this is our program')
-  pdf.addImage(img, 'JPEG', 110, 160); 
+  pdf.addImage(img, 'JPEG', 0, 0); 
   pdf.save('certificate.pdf')
 }
     </script>

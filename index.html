@@ -141,11 +141,7 @@ function downloadpdf(){
   var pdf = new jsPDF();
   pdf.text(30,30,'this is our program')
   pdf.addImage(img, 'JPEG', 0, 0); 
-   var Link = document.createElement( 'b' );     
-    Link.download = 'certificate.pdf';
-     Link.href = pdf;
-       document.body.appendChild( Link );     
-        Link.click();     
-     document.body.removeChild( Link );  }
+  pdf.save('certificate.pdf')
+}
     </script>
 </html>

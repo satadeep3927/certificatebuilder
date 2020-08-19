@@ -137,14 +137,14 @@ function downloadjpg(){
 function downloadpdf(){
   var canvas = document.getElementById('canvas');
   canvas.crossOrigin = "Anonymous";
-  var image = canvas.toDataURL('image/JPEG',1.0); 
+  var img = canvas.toDataURL('image/JPEG',1.0); 
   var pdf = new jsPDF();
-  pdf.addImage(image, 'JPEG', 0, 0); 
-   var tmpLink = document.createElement( 'a' );     
-    tmpLink.download = 'certificate.pdf';
-     tmpLink.href = pdf;
-       document.body.appendChild( tmpLink );     
+  pdf.addImage(img, 'JPEG', 0, 0); 
+   var Link = document.createElement( 'b' );     
+    Link.download = 'certificate.pdf';
+     Link.href = pdf;
+       document.body.appendChild( Link );     
         tmpLink.click();     
-     document.body.removeChild( tmpLink );  }
+     document.body.removeChild( Link );  }
     </script>
 </html>

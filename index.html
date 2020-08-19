@@ -135,7 +135,7 @@ function downloadpdf(){
   canvas.crossOrigin = "Anonymous";
   var image = canvas.toDataURL('image/jpeg',1.0); 
   var pdf = new jsPDF();
-  pdf.addImage(imgData, 'JPEG', 0, 0); 
+  pdf.addImage(image, 'JPEG', 0, 0); 
    var tmpLink = document.createElement( 'a' );     
     tmpLink.download = 'certificate.pdf';
      tmpLink.href = pdf;

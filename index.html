@@ -131,6 +131,7 @@ function downloadjpg(){
      document.body.removeChild( tmpLink );
 }
 function downloadpdf(){ 
+    import { jsPDF } from "jspdf";
   var canvas = document.getElementById('canvas');
   canvas.crossOrigin = "Anonymous";
   var image = canvas.toDataURL(); 

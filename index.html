@@ -101,15 +101,15 @@ canvas.width = $('#img').width();
 canvas.crossOrigin = "Anonymous";
 canvas.height = $('#img').height();
 ctx.drawImage($('#img').get(0), 0, 0);
-var x = $('#img').width();
-var y = $('#img').height();
+var x = $('#img1').width();
+var y = $('#img1').height();
 var ratio = x/y
 $(document).on('click','#submit',function(){
     $('#preview').css('display','inline-block');
     //redraw image
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage($('#img').get(0), 0, 0);
-    ctx.drawImage($('#img1').get(0), 50,120,150,110*ratio);
+    ctx.drawImage($('#img1').get(0), 50,120,150,150*ratio);
     //refill text
     ctx.fillStyle = "black";
     ctx.textAlign = 'center';
